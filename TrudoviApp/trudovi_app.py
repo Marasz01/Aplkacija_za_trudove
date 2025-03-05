@@ -8,6 +8,8 @@ import sqlite3
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import pygame
+from datetime import datetime
+import pytz  # Dodano za podršku vremenskih zona
 
 class TrudoviApp:
     def __init__(self, root):
@@ -35,12 +37,15 @@ class TrudoviApp:
             "history_duration": "Trajanje (s)",
             "history_status": "Status",
             "false_alarm": "Lažni trud",
-            "hospital_needed": "Potreban odlazak u bolnicu"
+            "hospital_needed": "Potreban odlazak u bolnicu",
+            "stopwatch_label": "Trajanje truda: 0.0 s",
+            "local_time_label": "Lokalno vrijeme:"
         }
 
         self.trudovi = []
         self.start_time = None
         self.running = False
+        self.stopwatch_running = False
 
         # Postavi SQLite bazu podataka
         self.conn = sqlite3.connect("trudovi.db")
@@ -55,10 +60,21 @@ class TrudoviApp:
         # Postavi graf
         self.setup_graph()
 
+        # Pokreni ažuriranje lokalnog vremena
+        self.update_local_time()
+
     def setup_ui(self):
         # Glavni okvir
         main_frame = ttk.Frame(self.root, padding="20")
         main_frame.pack(fill=tk.BOTH, expand=True)
+
+        # Lokalno vrijeme
+        self.local_time_label = ttk.Label(main_frame, text=self.texts["local_time_label"], font=("Arial", 12))
+        self.local_time_label.pack(pady=10)
+
+        # Štoperica
+        self.stopwatch_label = ttk.Label(main_frame, text=self.texts["stopwatch_label"], font=("Arial", 14))
+        self.stopwatch_label.pack(pady=10)
 
         # Status trudova
         self.label_status = ttk.Label(main_frame, text=self.texts["status_no_contractions"], font=("Arial", 14))
@@ -87,8 +103,8 @@ class TrudoviApp:
         # Graf
         self.figure, self.ax = plt.subplots(figsize=(8, 4))
         self.line, = self.ax.plot([], [], color="red", linewidth=2)
-        self.ax.set_title("Učestalost trudova")
-        self.ax.set_xlabel("Vrijeme (s)")
+        self.ax.set_title("Kumulativno trajanje trudova")
+        self.ax.set_xlabel("Broj trudova")
         self.ax.set_ylabel("Trajanje (s)")
         self.canvas = FigureCanvasTkAgg(self.figure, master=main_frame)
         self.canvas.get_tk_widget().pack(pady=20)
@@ -105,10 +121,13 @@ class TrudoviApp:
 
     def update_graph(self):
         # Ažuriraj graf s novim podacima
-        self.line.set_data(self.x_data, self.y_data)
-        self.ax.relim()
-        self.ax.autoscale_view()
-        self.canvas.draw()
+        if self.running:
+            self.x_data.append(len(self.trudovi) + 1)
+            self.y_data.append(sum(self.trudovi))
+            self.line.set_data(self.x_data, self.y_data)
+            self.ax.relim()
+            self.ax.autoscale_view()
+            self.canvas.draw()
 
         # Ponovi ažuriranje nakon 500 ms
         self.root.after(500, self.update_graph)
@@ -118,7 +137,7 @@ class TrudoviApp:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS trudovi (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                duration INTEGER,
+                duration REAL,
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
                 status TEXT
             )
@@ -132,12 +151,14 @@ class TrudoviApp:
             self.button_start.config(state=tk.DISABLED)
             self.button_stop.config(state=tk.NORMAL)
             self.label_status.config(text=self.texts["status_measuring"])
-            self.thread = threading.Thread(target=self.mjeri_trud)
-            self.thread.start()
+            self.stopwatch_running = True
+            self.update_stopwatch()
+            self.animate_start()
 
     def stop_trud(self):
         if self.running:
             self.running = False
+            self.stopwatch_running = False
             end_time = time.time()
             duration = end_time - self.start_time
             self.trudovi.append(duration)
@@ -147,11 +168,19 @@ class TrudoviApp:
             self.button_stop.config(state=tk.DISABLED)
             self.label_status.config(text=self.texts["status_stopped"])
             self.provjeri_trudove()
+            self.animate_stop()
 
-            # Ažuriraj graf
-            self.x_data.append(len(self.trudovi))
-            self.y_data.append(duration)
-            self.update_graph()
+    def animate_start(self):
+        # Animacija za pokretanje truda
+        self.label_status.config(bootstyle=SUCCESS)
+        self.label_boja.config(bootstyle=SUCCESS)
+        self.root.after(100, self.animate_start)
+
+    def animate_stop(self):
+        # Animacija za zaustavljanje truda
+        self.label_status.config(bootstyle=DANGER)
+        self.label_boja.config(bootstyle=DANGER)
+        self.root.after(100, self.animate_stop)
 
     def determine_status(self, duration):
         if duration < 300:  # Ako je trud kraći od 5 minuta
@@ -163,7 +192,7 @@ class TrudoviApp:
 
     def save_to_db(self, duration, status):
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO trudovi (duration, status) VALUES (?, ?)", (int(duration), status))
+        cursor.execute("INSERT INTO trudovi (duration, status) VALUES (?, ?)", (duration, status))
         self.conn.commit()
 
     def provjeri_trudove(self):
@@ -192,6 +221,20 @@ class TrudoviApp:
         self.label_boja.config(text="", bootstyle=DEFAULT)
         self.label_status.config(text=self.texts["status_no_contractions"])
         self.update_graph()
+
+    def update_stopwatch(self):
+        if self.stopwatch_running:
+            elapsed_time = time.time() - self.start_time
+            self.stopwatch_label.config(text=f"Trajanje truda: {elapsed_time:.1f} s")
+            self.root.after(100, self.update_stopwatch)
+
+    def update_local_time(self):
+        # Dohvati trenutno lokalno vrijeme
+        local_time = datetime.now(pytz.timezone("Europe/Zagreb"))
+        self.local_time_label.config(text=f"{self.texts['local_time_label']} {local_time.strftime('%Y-%m-%d %H:%M:%S')}")
+
+        # Ponovi ažuriranje svake sekunde
+        self.root.after(1000, self.update_local_time)
 
     def show_history(self):
         # Otvori novi prozor s poviješću trudova

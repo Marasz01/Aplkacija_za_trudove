@@ -690,10 +690,6 @@
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\_afm.py',
    'PYMODULE'),
-  ('matplotlib._animation_data',
-   'c:\\Users\\Ivan '
-   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\_animation_data.py',
-   'PYMODULE'),
   ('matplotlib._api',
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\_api\\__init__.py',
@@ -773,10 +769,6 @@
   ('matplotlib._version',
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\_version.py',
-   'PYMODULE'),
-  ('matplotlib.animation',
-   'c:\\Users\\Ivan '
-   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\animation.py',
    'PYMODULE'),
   ('matplotlib.artist',
    'c:\\Users\\Ivan '
@@ -1910,6 +1902,26 @@
   ('pyparsing.util',
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\pyparsing\\util.py',
+   'PYMODULE'),
+  ('pytz',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\pytz\\__init__.py',
+   'PYMODULE'),
+  ('pytz.exceptions',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\pytz\\exceptions.py',
+   'PYMODULE'),
+  ('pytz.lazy',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\pytz\\lazy.py',
+   'PYMODULE'),
+  ('pytz.tzfile',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\pytz\\tzfile.py',
+   'PYMODULE'),
+  ('pytz.tzinfo',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\pytz\\tzinfo.py',
    'PYMODULE'),
   ('queue', 'C:\\Python312\\Lib\\queue.py', 'PYMODULE'),
   ('quopri', 'C:\\Python312\\Lib\\quopri.py', 'PYMODULE'),
