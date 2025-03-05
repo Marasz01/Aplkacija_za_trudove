@@ -13,7 +13,7 @@ class TrudoviApp:
         self.root.title("Aplikacija za praćenje trudova")
         self.root.geometry("800x600")
         self.style = ttk.Style()
-        self.style.theme_use("cosmo")  # Moderni izgled
+        self.style.theme_use("vista")  # Standardna Windows tema
 
         self.trudovi = []
         self.start_time = None
