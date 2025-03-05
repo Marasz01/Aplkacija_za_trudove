@@ -104,6 +104,14 @@
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\PIL\\ImageColor.py',
    'PYMODULE'),
+  ('PIL.ImageDraw',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\PIL\\ImageDraw.py',
+   'PYMODULE'),
+  ('PIL.ImageDraw2',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\PIL\\ImageDraw2.py',
+   'PYMODULE'),
   ('PIL.ImageFile',
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\PIL\\ImageFile.py',
@@ -111,6 +119,14 @@
   ('PIL.ImageFilter',
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\PIL\\ImageFilter.py',
+   'PYMODULE'),
+  ('PIL.ImageFont',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\PIL\\ImageFont.py',
+   'PYMODULE'),
+  ('PIL.ImageGrab',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\PIL\\ImageGrab.py',
    'PYMODULE'),
   ('PIL.ImageMath',
    'c:\\Users\\Ivan '
@@ -127,6 +143,10 @@
   ('PIL.ImagePalette',
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\PIL\\ImagePalette.py',
+   'PYMODULE'),
+  ('PIL.ImagePath',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\PIL\\ImagePath.py',
    'PYMODULE'),
   ('PIL.ImageQt',
    'c:\\Users\\Ivan '
@@ -670,6 +690,10 @@
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\_afm.py',
    'PYMODULE'),
+  ('matplotlib._animation_data',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\_animation_data.py',
+   'PYMODULE'),
   ('matplotlib._api',
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\_api\\__init__.py',
@@ -749,6 +773,10 @@
   ('matplotlib._version',
    'c:\\Users\\Ivan '
    'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\_version.py',
+   'PYMODULE'),
+  ('matplotlib.animation',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\matplotlib\\animation.py',
    'PYMODULE'),
   ('matplotlib.artist',
    'c:\\Users\\Ivan '
@@ -2551,6 +2579,9 @@
   ('tkinter.messagebox',
    'C:\\Python312\\Lib\\tkinter\\messagebox.py',
    'PYMODULE'),
+  ('tkinter.scrolledtext',
+   'C:\\Python312\\Lib\\tkinter\\scrolledtext.py',
+   'PYMODULE'),
   ('tkinter.simpledialog',
    'C:\\Python312\\Lib\\tkinter\\simpledialog.py',
    'PYMODULE'),
@@ -2562,6 +2593,90 @@
   ('tomllib._re', 'C:\\Python312\\Lib\\tomllib\\_re.py', 'PYMODULE'),
   ('tomllib._types', 'C:\\Python312\\Lib\\tomllib\\_types.py', 'PYMODULE'),
   ('tracemalloc', 'C:\\Python312\\Lib\\tracemalloc.py', 'PYMODULE'),
+  ('ttkbootstrap',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\__init__.py',
+   'PYMODULE'),
+  ('ttkbootstrap.colorutils',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\colorutils.py',
+   'PYMODULE'),
+  ('ttkbootstrap.constants',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\constants.py',
+   'PYMODULE'),
+  ('ttkbootstrap.dialogs',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\dialogs\\__init__.py',
+   'PYMODULE'),
+  ('ttkbootstrap.dialogs.colorchooser',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\dialogs\\colorchooser.py',
+   'PYMODULE'),
+  ('ttkbootstrap.dialogs.colordropper',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\dialogs\\colordropper.py',
+   'PYMODULE'),
+  ('ttkbootstrap.dialogs.dialogs',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\dialogs\\dialogs.py',
+   'PYMODULE'),
+  ('ttkbootstrap.icons',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\icons.py',
+   'PYMODULE'),
+  ('ttkbootstrap.localization',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\localization\\__init__.py',
+   'PYMODULE'),
+  ('ttkbootstrap.localization.msgcat',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\localization\\msgcat.py',
+   'PYMODULE'),
+  ('ttkbootstrap.localization.msgs',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\localization\\msgs.py',
+   'PYMODULE'),
+  ('ttkbootstrap.publisher',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\publisher.py',
+   'PYMODULE'),
+  ('ttkbootstrap.style',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\style.py',
+   'PYMODULE'),
+  ('ttkbootstrap.themes',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\themes\\__init__.py',
+   'PYMODULE'),
+  ('ttkbootstrap.themes.standard',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\themes\\standard.py',
+   'PYMODULE'),
+  ('ttkbootstrap.themes.user',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\themes\\user.py',
+   'PYMODULE'),
+  ('ttkbootstrap.tooltip',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\tooltip.py',
+   'PYMODULE'),
+  ('ttkbootstrap.utility',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\utility.py',
+   'PYMODULE'),
+  ('ttkbootstrap.validation',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\validation.py',
+   'PYMODULE'),
+  ('ttkbootstrap.widgets',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\widgets.py',
+   'PYMODULE'),
+  ('ttkbootstrap.window',
+   'c:\\Users\\Ivan '
+   'Maras\\Documents\\GitHub\\Aplkacija_za_trudove\\.venv\\Lib\\site-packages\\ttkbootstrap\\window.py',
+   'PYMODULE'),
   ('tty', 'C:\\Python312\\Lib\\tty.py', 'PYMODULE'),
   ('typing', 'C:\\Python312\\Lib\\typing.py', 'PYMODULE'),
   ('typing_extensions',

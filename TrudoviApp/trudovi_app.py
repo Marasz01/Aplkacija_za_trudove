@@ -1,5 +1,7 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from tkinter import messagebox, Toplevel
 import time
 import threading
 import sqlite3
@@ -11,9 +13,30 @@ class TrudoviApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Aplikacija za praćenje trudova")
-        self.root.geometry("800x600")
-        self.style = ttk.Style()
-        self.style.theme_use("vista")  # Standardna Windows tema
+        self.root.geometry("1000x600")
+
+        self.texts = {
+            "title": "Aplikacija za praćenje trudova",
+            "status_no_contractions": "Status: Nema aktivnih trudova",
+            "status_measuring": "Status: Mjerenje u toku",
+            "status_stopped": "Status: Mjerenje zaustavljeno",
+            "start_button": "Počni mjeriti trud",
+            "stop_button": "Zaustavi mjerenje",
+            "reset_button": "Resetuj",
+            "info_label": "Informacije o trudovima:",
+            "music_button": "Reproduciraj opuštajuću muziku",
+            "yellow_text": "Nije vrijeme za porod",
+            "green_text": "Vrijeme je za porod!",
+            "red_text": "Hitno idite u bolnicu!",
+            "alarm_message": "Hitno idite u bolnicu! Porađate se.",
+            "history_button": "Povijest trudova",
+            "history_title": "Povijest trudova",
+            "history_time": "Vrijeme",
+            "history_duration": "Trajanje (s)",
+            "history_status": "Status",
+            "false_alarm": "Lažni trud",
+            "hospital_needed": "Potreban odlazak u bolnicu"
+        }
 
         self.trudovi = []
         self.start_time = None
@@ -29,40 +52,66 @@ class TrudoviApp:
         # Inicijaliziraj pygame za muziku
         pygame.mixer.init()
 
+        # Postavi graf
+        self.setup_graph()
+
     def setup_ui(self):
         # Glavni okvir
         main_frame = ttk.Frame(self.root, padding="20")
         main_frame.pack(fill=tk.BOTH, expand=True)
 
         # Status trudova
-        self.label_status = ttk.Label(main_frame, text="Status: Nema aktivnih trudova", font=("Arial", 14))
+        self.label_status = ttk.Label(main_frame, text=self.texts["status_no_contractions"], font=("Arial", 14))
         self.label_status.pack(pady=10)
 
         # Indikator boje
-        self.label_boja = ttk.Label(main_frame, text="", font=("Arial", 18), width=20, style="TLabel")
+        self.label_boja = ttk.Label(main_frame, text="", font=("Arial", 18), width=20)
         self.label_boja.pack(pady=20)
 
         # Gumbi
         button_frame = ttk.Frame(main_frame)
         button_frame.pack(pady=10)
 
-        self.button_start = ttk.Button(button_frame, text="Počni mjeriti trud", command=self.start_trud)
+        self.button_start = ttk.Button(button_frame, text=self.texts["start_button"], command=self.start_trud, bootstyle=SUCCESS)
         self.button_start.pack(side=tk.LEFT, padx=5)
 
-        self.button_stop = ttk.Button(button_frame, text="Zaustavi mjerenje", command=self.stop_trud, state=tk.DISABLED)
+        self.button_stop = ttk.Button(button_frame, text=self.texts["stop_button"], command=self.stop_trud, bootstyle=DANGER, state=tk.DISABLED)
         self.button_stop.pack(side=tk.LEFT, padx=5)
 
-        self.button_reset = ttk.Button(button_frame, text="Resetuj", command=self.reset)
+        self.button_reset = ttk.Button(button_frame, text=self.texts["reset_button"], command=self.reset, bootstyle=INFO)
         self.button_reset.pack(side=tk.LEFT, padx=5)
 
+        self.button_history = ttk.Button(button_frame, text=self.texts["history_button"], command=self.show_history, bootstyle=WARNING)
+        self.button_history.pack(side=tk.LEFT, padx=5)
+
         # Graf
-        self.figure, self.ax = plt.subplots(figsize=(6, 3))
+        self.figure, self.ax = plt.subplots(figsize=(8, 4))
+        self.line, = self.ax.plot([], [], color="red", linewidth=2)
+        self.ax.set_title("Učestalost trudova")
+        self.ax.set_xlabel("Vrijeme (s)")
+        self.ax.set_ylabel("Trajanje (s)")
         self.canvas = FigureCanvasTkAgg(self.figure, master=main_frame)
         self.canvas.get_tk_widget().pack(pady=20)
 
         # Opcije za opuštanje
-        self.button_music = ttk.Button(main_frame, text="Reproduciraj opuštajuću muziku", command=self.play_music)
+        self.button_music = ttk.Button(main_frame, text=self.texts["music_button"], command=self.play_music, bootstyle=WARNING)
         self.button_music.pack(pady=10)
+
+    def setup_graph(self):
+        # Inicijaliziraj graf
+        self.x_data = []
+        self.y_data = []
+        self.update_graph()
+
+    def update_graph(self):
+        # Ažuriraj graf s novim podacima
+        self.line.set_data(self.x_data, self.y_data)
+        self.ax.relim()
+        self.ax.autoscale_view()
+        self.canvas.draw()
+
+        # Ponovi ažuriranje nakon 500 ms
+        self.root.after(500, self.update_graph)
 
     def create_table(self):
         cursor = self.conn.cursor()
@@ -70,7 +119,8 @@ class TrudoviApp:
             CREATE TABLE IF NOT EXISTS trudovi (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 duration INTEGER,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                status TEXT
             )
         """)
         self.conn.commit()
@@ -81,7 +131,7 @@ class TrudoviApp:
             self.start_time = time.time()
             self.button_start.config(state=tk.DISABLED)
             self.button_stop.config(state=tk.NORMAL)
-            self.label_status.config(text="Status: Mjerenje u toku")
+            self.label_status.config(text=self.texts["status_measuring"])
             self.thread = threading.Thread(target=self.mjeri_trud)
             self.thread.start()
 
@@ -91,40 +141,44 @@ class TrudoviApp:
             end_time = time.time()
             duration = end_time - self.start_time
             self.trudovi.append(duration)
-            self.save_to_db(duration)
+            status = self.determine_status(duration)
+            self.save_to_db(duration, status)
             self.button_start.config(state=tk.NORMAL)
             self.button_stop.config(state=tk.DISABLED)
-            self.label_status.config(text="Status: Mjerenje zaustavljeno")
-            self.azuriraj_informacije()
+            self.label_status.config(text=self.texts["status_stopped"])
             self.provjeri_trudove()
+
+            # Ažuriraj graf
+            self.x_data.append(len(self.trudovi))
+            self.y_data.append(duration)
             self.update_graph()
 
-    def save_to_db(self, duration):
+    def determine_status(self, duration):
+        if duration < 300:  # Ako je trud kraći od 5 minuta
+            return self.texts["false_alarm"]
+        elif duration < 600:  # Ako je trud kraći od 10 minuta
+            return self.texts["hospital_needed"]
+        else:
+            return self.texts["false_alarm"]
+
+    def save_to_db(self, duration, status):
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO trudovi (duration) VALUES (?)", (int(duration),))
+        cursor.execute("INSERT INTO trudovi (duration, status) VALUES (?, ?)", (int(duration), status))
         self.conn.commit()
 
-    def update_graph(self):
-        self.ax.clear()
-        self.ax.plot(self.trudovi, marker="o", color="blue")
-        self.ax.set_title("Učestalost trudova")
-        self.ax.set_xlabel("Broj trudova")
-        self.ax.set_ylabel("Trajanje (s)")
-        self.canvas.draw()
-
     def provjeri_trudove(self):
-        if len(self.trudovi) >= 3:
-            prosjek = sum(self.trudovi[-3:]) / 3
+        if len(self.trudovi) >= 5:
+            prosjek = sum(self.trudovi[-5:]) / 5
             if prosjek < 300:  # Ako su trudovi češći od svakih 5 minuta
-                self.label_boja.config(style="Red.TLabel", text="Hitno idite u bolnicu!")
+                self.label_boja.config(text=self.texts["red_text"], bootstyle=DANGER)
                 self.alarm()
             elif prosjek < 600:  # Ako su trudovi češći od svakih 10 minuta
-                self.label_boja.config(style="Green.TLabel", text="Vrijeme je za porod!")
+                self.label_boja.config(text=self.texts["green_text"], bootstyle=SUCCESS)
             else:
-                self.label_boja.config(style="Yellow.TLabel", text="Nije vrijeme za porod.")
+                self.label_boja.config(text=self.texts["yellow_text"], bootstyle=WARNING)
 
     def alarm(self):
-        messagebox.showwarning("Alarm", "Hitno idite u bolnicu! Porađate se.")
+        messagebox.showwarning("Upozorenje", self.texts["alarm_message"])
         self.play_music("alarm.mp3")  # Dodaj alarm.mp3 u assets folder
 
     def play_music(self, file="relaxing_music.mp3"):
@@ -133,11 +187,35 @@ class TrudoviApp:
 
     def reset(self):
         self.trudovi = []
-        self.label_boja.config(text="", style="TLabel")
-        self.label_status.config(text="Status: Nema aktivnih trudova")
+        self.x_data = []
+        self.y_data = []
+        self.label_boja.config(text="", bootstyle=DEFAULT)
+        self.label_status.config(text=self.texts["status_no_contractions"])
         self.update_graph()
 
+    def show_history(self):
+        # Otvori novi prozor s poviješću trudova
+        history_window = Toplevel(self.root)
+        history_window.title(self.texts["history_title"])
+        history_window.geometry("600x400")
+
+        # Prikaz podataka iz baze
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT timestamp, duration, status FROM trudovi ORDER BY timestamp DESC")
+        rows = cursor.fetchall()
+
+        # Tablica za prikaz podataka
+        columns = ("#1", "#2", "#3")
+        tree = ttk.Treeview(history_window, columns=columns, show="headings")
+        tree.heading("#1", text=self.texts["history_time"])
+        tree.heading("#2", text=self.texts["history_duration"])
+        tree.heading("#3", text=self.texts["history_status"])
+        tree.pack(fill=tk.BOTH, expand=True)
+
+        for row in rows:
+            tree.insert("", tk.END, values=row)
+
 if __name__ == "__main__":
-    root = tk.Tk()
+    root = ttk.Window(themename="superhero")  # Postavi temu na "superhero"
     app = TrudoviApp(root)
     root.mainloop()
